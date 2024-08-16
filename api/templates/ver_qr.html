@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1 style="color: red;">Código QR Generado</h1>
+    <h1>Código QR Generado</h1>
     <p>Hora del QR: {{ current_time }}</p>
     <img src="data:image/png;base64,{{ qr_code }}" alt="Código QR">
     <a href="{% url 'contador' %}">Regresar</a>
