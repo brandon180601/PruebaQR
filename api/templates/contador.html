@@ -1,4 +1,4 @@
-{% load static %}
+{% load static%}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,14 +8,20 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Generar Código QR</h1>
-    <form action="{% url 'contador' %}" method="post">
-        {% csrf_token %}
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad" name="edad" required>
-        <button type="submit">Generar QR</button>
-    </form>
+    <div class="container">
+        <h1>Generar Código QR</h1>
+        <form action="{% url 'generar_qr' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" name="edad" required>
+            </div>
+            <button type="submit">Generar QR</button>
+        </form>
+    </div>
 </body>
 </html>
