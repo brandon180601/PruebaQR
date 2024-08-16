@@ -1,22 +1,28 @@
-# views.py
 import qrcode
 import base64
 from io import BytesIO
 from django.shortcuts import render
 from django.utils import timezone
+import pytz
 
 def contador(request):
-    current_time = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
-    return render(request, 'contador.html', {'current_time': current_time})
+    # Convertir la hora a la zona horaria local
+    local_tz = pytz.timezone('America/Mexico_City')
+    local_time = timezone.now().astimezone(local_tz).strftime("%Y-%m-%d %H:%M:%S")
+    
+    return render(request, 'contador.html', {'current_time': local_time})
 
 def generar_qr(request):
     if request.method == "POST":
         nombre = request.POST.get('nombre')
         edad = request.POST.get('edad')
-        current_time = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Convertir la hora a la zona horaria local
+        local_tz = pytz.timezone('America/Mexico_City')
+        local_time = timezone.now().astimezone(local_tz).strftime("%Y-%m-%d %H:%M:%S")
         
         # Datos a codificar en el QR
-        data = f"Nombre: {nombre}\nEdad: {edad}\nHora: {current_time}"
+        data = f"Nombre: {nombre}\nEdad: {edad}\nHora: {local_time}"
         
         # Generar el QR
         qr = qrcode.QRCode(
@@ -34,6 +40,6 @@ def generar_qr(request):
         img.save(buffer, format="PNG")
         img_str = base64.b64encode(buffer.getvalue()).decode()
 
-        return render(request, 'ver_qr.html', {'qr_code': img_str, 'current_time': current_time})
+        return render(request, 'ver_qr.html', {'qr_code': img_str, 'current_time': local_time})
 
     return render(request, 'contador.html')
