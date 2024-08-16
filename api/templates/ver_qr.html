@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver QR</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Código QR Generado</h1>
+    <p>Información: {{ data }}</p>
+    <img src="{{ '/media/qrs/'|add:qr_filename }}" alt="Código QR">
+    <a href="{% url 'contador' %}">Regresar</a>
+</body>
+</html>
