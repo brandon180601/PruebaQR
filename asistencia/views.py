@@ -66,7 +66,7 @@ def login_view(request):
             if user.is_superuser:
                 return redirect('admin_dashboard')  #nombre de la URL 
             else:
-                return redirect('generar_qr')  # Redirige a donde quieras para usuarios normales
+                return redirect('inicio')  # Redirige a donde quieras para usuarios normales
     else:
         form = AuthenticationForm()
     
@@ -102,7 +102,37 @@ def admin_login_view(request):
 def admin_dashboard_view(request):
     return render(request, 'admin_dashboard.html')
 
-from django.db import IntegrityError
+def generar_qr(request):
+    user = request.user  # Obtén el usuario autenticado
+
+    # Supongo que tienes un modelo llamado Usuario que está relacionado con User
+    usuario = Usuario.objects.get(nombre=user.username)  # Filtra por el campo username
+
+    # Datos a codificar en el QR
+    qr_data = f"Usuario: {user.username}\nEmail: {user.email}\nNombre: {usuario.nombre} {usuario.apellido_paterno}"
+    
+    # Generar el QR
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    
+    # Convertir la imagen a PNG en memoria
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    
+    # Preparar la respuesta de descarga
+    response = HttpResponse(buffer, content_type='image/png')
+    response['Content-Disposition'] = f'attachment; filename=QR_{usuario.nombre}.png'
+    
+    return response  # Devuelve el QR como archivo descargable
+
 
 import random
 
@@ -218,3 +248,13 @@ def eliminar_usuario(request, pk):
         messages.success(request, 'Usuario eliminado correctamente.')
         return redirect('lista_usuarios')
     return render(request, 'eliminar_usuario.html', {'usuario': usuario})
+
+
+# __________________________________________________________________________________
+# Prestador de servicios
+# __________________________________________________________________________________
+def inicio_prestador(request):
+    return render(request, 'prestador/inicio.html')
+
+def reportes_horas(request):
+    return render(request, 'prestador/reportes.html')
