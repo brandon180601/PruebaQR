@@ -1,0 +1,240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+
+  <title>Lista Usuarios</title>
+  <link rel="shortcut icon" href="{% static 'img/LOGO.JPG' %}" type="image/x-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+  <!-- External CSS -->
+  <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/zabuto_calendar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'js/gritter/css/jquery.gritter.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'lineicons/style.css' %}">    
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style-responsive.css' %}" rel="stylesheet">
+
+  <script src="{% static 'js/chart-master/Chart.js' %}"></script>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ACADAD;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #B08A5B;
+            color: #ffffff;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #602935;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #4b1e29;
+        }
+
+        .filter-form {
+            margin-bottom: 20px;
+        }
+
+        .filter-form input[type="date"] {
+            padding: 5px;
+        }
+
+        .filter-form button {
+            padding: 5px 10px;
+            background-color: #602935;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .filter-form button:hover {
+            background-color: #4b1e29;
+        }
+    </style>
+
+  <section id="container">
+    <!-- TOP BAR CONTENT & NOTIFICATIONS -->
+    <!--header start-->
+    <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
+      <!--logo start-->
+      <a href="{% url 'admin_dashboard' %}" class="logo"><b>Control de Asistencias</b></a>
+      <!--logo end-->
+      <div class="nav notify-row" id="top_menu">
+      </div>
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+          <li><a class="logout" href="{% url 'login' %}">Cerrar sesión</a></li>
+        </ul>
+      </div>
+    </header>
+    <!--header end-->
+
+    <!-- MAIN SIDEBAR MENU -->
+    <!--sidebar start-->
+    <aside>
+      <div id="sidebar"  class="nav-collapse ">
+          <!-- sidebar menu start-->
+          <ul class="sidebar-menu" id="nav-accordion">
+          
+              <p class="centered"><a href="profile.html"><img src="{% static '/img/LOGO.jpg' %}" class="img-circle" width="60"></a></p>
+              <h5 class="centered">Administrador</h5>
+                
+              <li class="mt">
+                  <a class="active""{% url 'admin_dashboard' %}">
+                      <i class="fa fa-dashboard"></i>
+                      <span>Dashboard</span>
+                      <ul class="sub">
+                      <li><a  href="{% url 'admin_dashboard' %}">Agregar Usuarios</a></li>
+                     
+
+                  </ul>
+                  </a>
+              </li>
+
+              <li class="sub-menu">
+                  <a href="javascript:;" >
+                      <i class="fa fa-desktop"></i>
+                      <span>Agregar usuarios</span>
+                  </a>
+                  <ul class="sub">
+                      <li><a  href="{% url 'agregar_usuario' %}">Agregar Usuarios</a></li>
+                      <li><a  href="{% url 'lista_usuarios' %}">lista de ususarios</a></li>
+
+                  </ul>
+              </li>
+
+              <li class="sub-menu">
+                  <a href="javascript:;" >
+                      <i class="fa fa-cogs"></i>
+                      <span>Calendario</span>
+                  </a>
+                  <ul class="sub">
+                      <li><a  href="{% url 'calendar' %}">Calendario</a></li>
+                  </ul>
+              </li>
+              <li class="sub-menu">
+                  <a href="javascript:;" >
+                      <i class="fa fa-book"></i>
+                      <span>Reportes</span>
+                  </a>
+                  <ul class="sub">
+                      <li><a  href="blank.html">Generar reportes</a></li>
+
+                  </ul>
+              </li>
+        
+             
+
+          </ul>
+          <!-- sidebar menu end-->
+      </div>
+  </aside>
+  <!--sidebar end-->
+
+    <!-- MAIN CONTENT -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+    <div class="container">
+        <h1>Reporte de Asistencias</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Fecha de Entrada</th>
+                <th>Fecha de Salida</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asistencia in asistencia %}
+                <tr>
+                    <td>{{ asistencia.usuario.nombre }}</td>
+                    <td>{{ asistencia.fecha_entrada }}</td>
+                    <td>{{ asistencia.fecha_salida }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <a href="{% url 'reporte_pdf' %}" class="btn">Descargar Reporte PDF</a>
+
+
+        <a href="{% url 'admin_dashboard' %}" class="btn">Volver al inicio</a>
+
+    </div>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery.js' %}" ></script>
+    <script src="{% static 'js/bootstrap.min.js' %}" ></script>
+
+    <!--BACKSTRETCH-->
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script type="text/javascript" src="{% static 'js/jquery.backstretch.min.js' %}" ></script>
+    <script>
+        $.backstretch("{% static 'img/2.jpg' %}", {speed: 500});
+    </script>
+
+</body>
+</html>
